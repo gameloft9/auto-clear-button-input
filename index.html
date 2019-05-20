@@ -1,0 +1,65 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <meta name="format-detection" content="telephone=no">
+    <title>示例</title>
+    
+    <style>
+        
+		.my_input_close_button {
+            height: 17px;
+			width: 17px;
+			background-size: 17px 17px;
+			right: 21px;
+			top: 5px;
+        }
+    </style>
+</head>
+<body>
+<input data-auto-clear-button="true"  id="mobile" class="input_mobile" type="tel" placeholder="请输入您注册的手机号"/>
+
+<script type="text/javascript" src="jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="src/auto-clear-button-input.js"></script>
+<script>
+     $(function () {
+	  // 修改默认配置
+	  $.autoClearButtonInput.setDefault({
+            icon: 'my_input_close_button', // 自定义关闭按钮样式
+			enableValidation: true
+        });
+		
+		//$('#mobile').autoClearButtonInput('create');
+		
+		$('#mobile').autoClearButtonInput('setValidateFunction',function(data){
+		       return checkPhone(data);
+		})
+		
+		 // 检查手机号、身份证
+        $('#mobile').change(function () {
+		    var valid = $('#mobile').autoClearButtonInput("validate");
+            if (valid) {
+               // your logic
+            } else {
+              // your logic
+            }
+        });
+    });
+	
+	/**
+	* 检查手机号
+	*/
+	function checkPhone(phone){
+		if (phone == null || phone == "") {
+			return false;
+		}
+
+		if (!/^\d{11}$/.test(phone)) {
+			return false;
+		}
+
+		return true;
+	}
+</script>
+</body>
+</html>
