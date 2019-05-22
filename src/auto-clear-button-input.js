@@ -13,7 +13,7 @@
  *    $('#test').autoClearButtonInput('hide'); // 隐藏清空按钮
  * Created by gameloft9 on 2019/5/15.
  */
-;(function () {
+;(function ($) {
     'use strict';
 
     /**
