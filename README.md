@@ -17,7 +17,7 @@
 <input data-auto-clear-button="true" id="mobile" type="tel" placeholder="请输入您注册的手机号"/>
 ```
 ##### 效果图：
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190520171830861.png)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190520171830861.png)  
 也可以在需要的时候，通过js创建：
 ```javascript
 $('#mobile').autoClearButtonInput('create');
@@ -48,6 +48,8 @@ $('#mobile').autoClearButtonInput('clearWarn');
 $('#mobile').autoClearButtonInput('setValidateFunction',function(data){});
 8、校验内容
 $('#mobile').autoClearButtonInput('validte');
+9、设置清除回调
+$('#mobile').autoClearButtonInput('clearCallBack');
 ```
 #### 4、默认设置
 该插件提供了两个默认设置：
@@ -73,5 +75,5 @@ $('#mobile').autoClearButtonInput('setValidateFunction',function(data){
 ```js
 var isValid = $('#mobile').autoClearButtonInput("validate");
 ```
-当校验不通过时，输入框会变红，如下所示：
+当校验不通过时，输入框会变红，如下所示：  
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190520173546408.png)
