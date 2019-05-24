@@ -1,5 +1,5 @@
 /**
- * 基于jQuery的自带清空按钮的input插件(方便以后复用)
+ * 基于jQuery的自带清空按钮的input插件
  * 使用示例：
  * <input id="test" type="text" data-auto-clear-button>
  * 也可以通过$('#test').autoClearButtonInputInput('create');创建清空按钮
@@ -24,6 +24,7 @@
         this.$clearButton = null;
         // 还可以扩展别的
         this.validateFunction = null;
+        this.clearCallBack = null; // 清除按钮点击后的回调函数
     };
 
     /**
@@ -51,15 +52,15 @@
         }
 
         var element = this.$element; // input元素
-        element.css({'padding-right': '30px'});
+        element.css({'padding-right': '3rem'});
         element.attr('data-auto-clear-button', 'true');
 
         // 清除按钮html+CSS
         //样式
         var cssStr = '<style type="text/css">';
-        cssStr += '.input_warn{border: 1px solid #FF5151;color: #FF5151;}';
+        cssStr += '.input_warn{border: 1px solid #FF5151 !important;color: #FF5151 !important;}';
         // 关闭按钮样式，提供一个默认实现
-        cssStr += '.default_input_close_button{height: 22px;width: 22px;background-size: 22px 22px;right: 23px;top:7px;}';
+        cssStr += '.default_input_close_button{height: 2rem;width: 10%;background-size: 2rem 2rem;right: 2.9rem;top:0.4rem;}';
         cssStr += '</style>';
         var head = document.getElementsByTagName('head')[0]; //样式必须放在head里面，放body里面不起作用？
         head.innerHTML += cssStr;
@@ -147,6 +148,13 @@
     };
 
     /**
+     * 设置回调
+     * */
+    AutoClearButtonInput.prototype.setClearCallBack = function (clearCallBackFunction) {
+        this.clearCallBack = clearCallBackFunction;
+    };
+
+    /**
      * 设置校验方法
      * */
     AutoClearButtonInput.prototype.setValidateFunction = function (validateFunction) {
@@ -174,6 +182,8 @@
 
             return valid;
         }
+
+        throw new ReferenceError();
     };
 
 
@@ -193,7 +203,7 @@
 
         // 方法调用支持'create' 'destroy' 'show' 'hide'
         if (typeof method === 'string') {
-            instance[method](param);
+            return instance[method](param);
         }
     }
 
@@ -241,6 +251,7 @@
     $(document).on('click', AutoClearButtonInput.DEFINITIONS.CLEAR_BUTTON, function (e) {
         var $btn = $(e.target);
         var $input = $(this).prev("input");
+        var oldValue = $input.val();
 
         // 清空并聚焦
         $input.val("").focus();
@@ -248,6 +259,10 @@
         $input.autoClearButtonInput(AutoClearButtonInput.DEFINITIONS.CLEAR_WARN);
         // 隐藏清除按钮
         $btn.hide();
+
+        // 调用回调
+        var instance = $input.data('clearButtonInstance'); // 获取ClearButton实例
+        instance.clearCallBack(oldValue);
     });
 
     /**
